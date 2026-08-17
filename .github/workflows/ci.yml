@@ -27,3 +27,26 @@ jobs:
 
       - name: Tests
         run: uv run pytest
+
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+
+      - run: uv sync --locked
+
+      - name: Reproduce the pipeline
+        run: uv run dvc repro --force
+
+      - name: Show metrics
+        run: cat metrics/eval.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metrics
+          path: metrics/
