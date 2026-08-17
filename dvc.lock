@@ -1,0 +1,130 @@
+schema: '2.0'
+stages:
+  generate:
+    cmd: python -m simplex_warmstart.stages.generate
+    deps:
+    - path: src/simplex_warmstart/chemistry.py
+      hash: md5
+      md5: 1c5f22262dccc4a9b7369bf41fbaf414
+      size: 1738
+    - path: src/simplex_warmstart/simulate.py
+      hash: md5
+      md5: 9ef4cd1ba07ac761e988aaa127687b01
+      size: 4110
+    - path: src/simplex_warmstart/stages/generate.py
+      hash: md5
+      md5: ca6341d6672414bb83d28e2a3581d41a
+      size: 665
+    params:
+      params.yaml:
+        data:
+          batch_id: 0
+          n_studies: 120
+          seed: 0
+          families:
+          - esters
+          - silicones
+    outs:
+    - path: data/raw/experiments.parquet
+      hash: md5
+      md5: 13ca72d7bcf1dfee35e3cc3da53513d0
+      size: 62472
+  validate:
+    cmd: python -m simplex_warmstart.stages.validate
+    deps:
+    - path: data/raw/experiments.parquet
+      hash: md5
+      md5: 13ca72d7bcf1dfee35e3cc3da53513d0
+      size: 62472
+    - path: src/simplex_warmstart/schemas.py
+      hash: md5
+      md5: 92565a645365ec247d2f8b51cd7ebdfb
+      size: 1547
+    - path: src/simplex_warmstart/splits.py
+      hash: md5
+      md5: 52dac0a4018da521a7f33c0160f78286
+      size: 1095
+    - path: src/simplex_warmstart/stages/validate.py
+      hash: md5
+      md5: 7e053cae03a8b30994899e7b97014c6b
+      size: 1047
+    params:
+      params.yaml:
+        split:
+          val_fraction: 0.15
+          test_fraction: 0.15
+          seed: 17
+    outs:
+    - path: data/processed/experiments.parquet
+      hash: md5
+      md5: ea99b66b38394039aa35a27290c2b45b
+      size: 63080
+  train:
+    cmd: python -m simplex_warmstart.stages.train
+    deps:
+    - path: data/processed/experiments.parquet
+      hash: md5
+      md5: ea99b66b38394039aa35a27290c2b45b
+      size: 63080
+    - path: src/simplex_warmstart/features.py
+      hash: md5
+      md5: e7eeaa5590ecf55ae8543e38113aed4a
+      size: 1697
+    - path: src/simplex_warmstart/model.py
+      hash: md5
+      md5: 8fc5de85422f5aa7ed5f0b274c8764c1
+      size: 766
+    - path: src/simplex_warmstart/stages/train.py
+      hash: md5
+      md5: efee909e169a1ee1e604900274b849fa
+      size: 4364
+    params:
+      params.yaml:
+        model:
+          hidden:
+          - 64
+          - 64
+          dropout: 0.0
+        train:
+          epochs: 150
+          batch_size: 256
+          lr: 0.003
+          weight_decay: 0.0001
+          seed: 42
+    outs:
+    - path: metrics/train.json
+      hash: md5
+      md5: e763aa432abe65727e6ea5c3900a9e2f
+      size: 43
+    - path: models/metadata.json
+      hash: md5
+      md5: 9d51703ea05f4eed0fb5b2333e6d7159
+      size: 941
+    - path: models/model.pt
+      hash: md5
+      md5: edd7fcf5cd2db5cf761a2313a183a303
+      size: 22013
+  evaluate:
+    cmd: python -m simplex_warmstart.stages.evaluate
+    deps:
+    - path: data/processed/experiments.parquet
+      hash: md5
+      md5: ea99b66b38394039aa35a27290c2b45b
+      size: 63080
+    - path: models/metadata.json
+      hash: md5
+      md5: 9d51703ea05f4eed0fb5b2333e6d7159
+      size: 941
+    - path: models/model.pt
+      hash: md5
+      md5: edd7fcf5cd2db5cf761a2313a183a303
+      size: 22013
+    - path: src/simplex_warmstart/stages/evaluate.py
+      hash: md5
+      md5: f71d11e37250ac191a6c667fcc139eac
+      size: 2181
+    outs:
+    - path: metrics/eval.json
+      hash: md5
+      md5: a4a56773c0cf9c3171212c073ef5dd89
+      size: 362

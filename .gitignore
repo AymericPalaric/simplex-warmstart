@@ -13,3 +13,7 @@ data/
 *.parquet
 .ruff_cache/
 .pytest_cache/
+
+mlflow.db
+mlruns/
+mlartifacts/
