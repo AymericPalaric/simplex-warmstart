@@ -57,3 +57,25 @@ jobs:
         with:
           name: metrics
           path: metrics/
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build the image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: simplex-warmstart:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test
+        run: |
+          docker run --rm simplex-warmstart:ci \
+            python -c "import simplex_warmstart.serving.app; print('import ok')"

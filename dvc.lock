@@ -76,14 +76,14 @@ stages:
       size: 752
     - path: src/simplex_warmstart/stages/train.py
       hash: md5
-      md5: 71c574e8784d3d58a5ab5214ad1cc95c
-      size: 2778
+      md5: c4d84ef815e44cec0fae85f4ff6f35af
+      size: 2695
     params:
       params.yaml:
         model:
           hidden:
-          - 64
-          - 64
+          - 96
+          - 96
           dropout: 0.0
         train:
           epochs: 150
@@ -95,16 +95,16 @@ stages:
     outs:
     - path: metrics/train.json
       hash: md5
-      md5: bb577ba19e4c7dc3079a9052f7590ca6
-      size: 44
+      md5: 3c642001d6c13de85527c4d5a3e15009
+      size: 43
     - path: models/metadata.json
       hash: md5
-      md5: 1ca0ef22e71179d2829fc5cccbbaab03
+      md5: ab96fe42357d0112a8ea6c5884eb7669
       size: 940
     - path: models/model.pt
       hash: md5
-      md5: a9644a299ebd82780a7662aac0dbfd2d
-      size: 22205
+      md5: a8a300f0beb0f9e6183759e8f333ca56
+      size: 44221
   evaluate:
     cmd: python -m simplex_warmstart.stages.evaluate
     deps:
@@ -114,12 +114,12 @@ stages:
       size: 63104
     - path: models/metadata.json
       hash: md5
-      md5: 1ca0ef22e71179d2829fc5cccbbaab03
+      md5: ab96fe42357d0112a8ea6c5884eb7669
       size: 940
     - path: models/model.pt
       hash: md5
-      md5: a9644a299ebd82780a7662aac0dbfd2d
-      size: 22205
+      md5: a8a300f0beb0f9e6183759e8f333ca56
+      size: 44221
     - path: src/simplex_warmstart/stages/evaluate.py
       hash: md5
       md5: efddb38827ca340395035b625a503f47
@@ -127,19 +127,19 @@ stages:
     outs:
     - path: metrics/eval.json
       hash: md5
-      md5: ab52c0913d3ea02366d9dc05dddcc1f9
-      size: 366
+      md5: 30c5ece66a3b3c03f4c62e3a115fdc76
+      size: 364
   gate:
     cmd: python -m simplex_warmstart.stages.gate
     deps:
     - path: metrics/eval.json
       hash: md5
-      md5: ab52c0913d3ea02366d9dc05dddcc1f9
-      size: 366
+      md5: 30c5ece66a3b3c03f4c62e3a115fdc76
+      size: 364
     - path: src/simplex_warmstart/stages/gate.py
       hash: md5
-      md5: 7b9bbef4e89b463c25ec570224ba9df1
-      size: 1800
+      md5: aea0e2049acf23dea055efac26671ff3
+      size: 1787
     params:
       params.yaml:
         gates:
@@ -149,5 +149,5 @@ stages:
     outs:
     - path: metrics/gate.json
       hash: md5
-      md5: 508f08dc904ff0c90d32f454f7dc1587
-      size: 431
+      md5: 7e50203cba9cf056c6d9867ac3d69f6e
+      size: 432

@@ -50,7 +50,6 @@ def main():
 
         mlflow.log_metric("best_val_rmse", result.best_val_rmse)
         mlflow.log_metric("best_epoch", result.best_epoch)
-        mlflow.pytorch.log_model(result.model, name="model", input_example=x_val)
 
         MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
         torch.save(result.model.state_dict(), MODEL_PATH)
