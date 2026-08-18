@@ -1,0 +1,51 @@
+stages:
+  generate:
+    cmd: python -m simplex_warmstart.stages.generate
+    deps:
+      - src/simplex_warmstart/chemistry.py
+      - src/simplex_warmstart/simulate.py
+      - src/simplex_warmstart/stages/generate.py
+    params:
+      - data
+    outs:
+      - data/raw/experiments.parquet
+
+  validate:
+    cmd: python -m simplex_warmstart.stages.validate
+    deps:
+      - data/raw/experiments.parquet
+      - src/simplex_warmstart/schemas.py
+      - src/simplex_warmstart/splits.py
+      - src/simplex_warmstart/stages/validate.py
+    params:
+      - split
+    outs:
+      - data/processed/experiments.parquet
+
+  train:
+    cmd: python -m simplex_warmstart.stages.train
+    deps:
+      - data/processed/experiments.parquet
+      - src/simplex_warmstart/features.py
+      - src/simplex_warmstart/model.py
+      - src/simplex_warmstart/stages/train.py
+    params:
+      - model
+      - train
+    outs:
+      - models/model.pt
+      - models/metadata.json
+    metrics:
+      - metrics/train.json:
+          cache: false
+
+  evaluate:
+    cmd: python -m simplex_warmstart.stages.evaluate
+    deps:
+      - data/processed/experiments.parquet
+      - models/model.pt
+      - models/metadata.json
+      - src/simplex_warmstart/stages/evaluate.py
+    metrics:
+      - metrics/eval.json:
+          cache: false
