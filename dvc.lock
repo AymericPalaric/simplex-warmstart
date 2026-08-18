@@ -68,16 +68,16 @@ stages:
       size: 63104
     - path: src/simplex_warmstart/features.py
       hash: md5
-      md5: e5386a319720079d17358e2941b304cf
-      size: 1700
+      md5: 9246cf20d157ba2a5a8ce59822ad0138
+      size: 2980
     - path: src/simplex_warmstart/model.py
       hash: md5
       md5: d70f6bce28fc0f1bdda2fddfa2b493ad
       size: 752
     - path: src/simplex_warmstart/stages/train.py
       hash: md5
-      md5: 4b4873cd8a6c9978d40c7eb9961bb2a5
-      size: 4288
+      md5: 71c574e8784d3d58a5ab5214ad1cc95c
+      size: 2778
     params:
       params.yaml:
         model:
@@ -91,19 +91,20 @@ stages:
           lr: 0.01
           weight_decay: 0.0001
           seed: 42
+          augment_permutations: true
     outs:
     - path: metrics/train.json
       hash: md5
-      md5: 1e4145340f06a39b8a3b35282b9644e8
+      md5: bb577ba19e4c7dc3079a9052f7590ca6
       size: 44
     - path: models/metadata.json
       hash: md5
-      md5: c94cddfe677fba2b0712292a7a287151
-      size: 941
+      md5: 1ca0ef22e71179d2829fc5cccbbaab03
+      size: 940
     - path: models/model.pt
       hash: md5
-      md5: 8d71e3166f6631031d2aa1f987d941ec
-      size: 22013
+      md5: a9644a299ebd82780a7662aac0dbfd2d
+      size: 22205
   evaluate:
     cmd: python -m simplex_warmstart.stages.evaluate
     deps:
@@ -113,18 +114,40 @@ stages:
       size: 63104
     - path: models/metadata.json
       hash: md5
-      md5: c94cddfe677fba2b0712292a7a287151
-      size: 941
+      md5: 1ca0ef22e71179d2829fc5cccbbaab03
+      size: 940
     - path: models/model.pt
       hash: md5
-      md5: 8d71e3166f6631031d2aa1f987d941ec
-      size: 22013
+      md5: a9644a299ebd82780a7662aac0dbfd2d
+      size: 22205
     - path: src/simplex_warmstart/stages/evaluate.py
       hash: md5
-      md5: a7db42b2654d4a86f706488ef472bc4a
-      size: 2186
+      md5: efddb38827ca340395035b625a503f47
+      size: 1804
     outs:
     - path: metrics/eval.json
       hash: md5
-      md5: 620cf03704e56a4e8fa074ec124f55d0
-      size: 365
+      md5: ab52c0913d3ea02366d9dc05dddcc1f9
+      size: 366
+  gate:
+    cmd: python -m simplex_warmstart.stages.gate
+    deps:
+    - path: metrics/eval.json
+      hash: md5
+      md5: ab52c0913d3ea02366d9dc05dddcc1f9
+      size: 366
+    - path: src/simplex_warmstart/stages/gate.py
+      hash: md5
+      md5: 7b9bbef4e89b463c25ec570224ba9df1
+      size: 1800
+    params:
+      params.yaml:
+        gates:
+          max_test_rmse: 0.19
+          min_test_r2: 0.9
+          max_family_rmse_gap: 0.1
+    outs:
+    - path: metrics/gate.json
+      hash: md5
+      md5: 508f08dc904ff0c90d32f454f7dc1587
+      size: 431

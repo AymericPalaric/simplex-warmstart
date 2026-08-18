@@ -38,4 +38,7 @@ select = ["E", "F", "I", "UP", "B", "SIM", "NPY"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q --strict-markers"
+markers = [
+  "artifact: nécessite models/model.pt (lancé après dvc repro)",
+]

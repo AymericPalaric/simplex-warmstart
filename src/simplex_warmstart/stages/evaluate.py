@@ -8,10 +8,9 @@ from pathlib import Path
 import mlflow
 import numpy as np
 import pandas as pd
-import torch
 
-from ..features import Standardizer, build_xy
-from ..model import MixtureMLP
+from ..features import build_xy
+from ..inference import SymmetricPredictor
 from ..tracking import setup_mlflow
 
 INPUT = Path("data/processed/experiments.parquet")
@@ -32,23 +31,13 @@ def regression_scores(pred: np.ndarray, target: np.ndarray) -> dict[str, float]:
 
 
 def main():
-    metadata = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
-    scaler = Standardizer.from_dict(metadata["scaler"])
-
-    model = MixtureMLP(
-        n_features=metadata["model"]["n_features"],
-        hidden=metadata["model"]["hidden"],
-        dropout=metadata["model"]["dropout"],
-    )
-    model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
-    model.eval()
+    predictor = SymmetricPredictor.from_artifacts(MODEL_PATH, METADATA_PATH)
 
     frame = pd.read_parquet(INPUT)
     test_df = frame[frame["split"] == "test"]
     x_test, y_test = build_xy(test_df)
 
-    with torch.no_grad():
-        pred = model(torch.from_numpy(scaler.transform(x_test))).numpy()
+    pred = predictor.predict_df(test_df)
 
     results = {"test": regression_scores(pred, y_test)}
     for family, index in test_df.groupby("family").indices.items():
@@ -58,7 +47,7 @@ def main():
     METRICS_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
 
     setup_mlflow()
-    with mlflow.start_run(run_id=metadata["mlflow_run_id"]):
+    with mlflow.start_run(run_id=predictor.metadata["mlflow_run_id"]):
         mlflow.log_metrics(
             {f"{scope}.{k}": v for scope, scores in results.items() for k, v in scores.items()}
         )
