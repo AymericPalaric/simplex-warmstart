@@ -49,3 +49,14 @@ stages:
     metrics:
       - metrics/eval.json:
           cache: false
+
+  gate:
+    cmd: python -m simplex_warmstart.stages.gate
+    deps:
+      - metrics/eval.json
+      - src/simplex_warmstart/stages/gate.py
+    params:
+      - gates
+    metrics:
+      - metrics/gate.json:
+          cache: false

@@ -11,6 +11,9 @@ wheels/
 
 data/
 *.parquet
+# sauf golden set
+!tests/golden/*.parquet
+
 .ruff_cache/
 .pytest_cache/
 

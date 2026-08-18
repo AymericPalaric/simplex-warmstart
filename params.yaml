@@ -19,3 +19,9 @@ train:
   lr: 0.01
   weight_decay: 0.0001
   seed: 42
+  augment_permutations: true
+
+gates:
+  max_test_rmse: 0.19
+  min_test_r2: 0.90
+  max_family_rmse_gap: 0.1
