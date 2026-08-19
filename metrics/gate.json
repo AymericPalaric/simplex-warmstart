@@ -3,19 +3,19 @@
   "checks": [
     {
       "name": "test_rmse",
-      "value": 0.16854409873485565,
+      "value": 0.16632696986198425,
       "threshold": 0.19,
       "passed": true
     },
     {
       "name": "test_r2",
-      "value": 0.9601880162496219,
+      "value": 0.9566763823474065,
       "threshold": 0.9,
       "passed": true
     },
     {
       "name": "family_gap (esters)",
-      "value": 0.008625507354736328,
+      "value": 0.006055876612663269,
       "threshold": 0.1,
       "passed": true
     }

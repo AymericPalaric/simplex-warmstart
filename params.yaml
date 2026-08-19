@@ -4,6 +4,12 @@ data:
     n_studies: 120
     seed: 0
     families: [esters, silicones]
+  - id: 1
+    n_studies: 40
+    seed: 1001
+    families:
+    - esters
+    - silicones
 
 split:
   val_fraction: 0.15
