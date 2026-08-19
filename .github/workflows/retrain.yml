@@ -1,0 +1,71 @@
+name: Retrain
+
+on:
+  schedule:
+    # Lundi 3h17 UTC. Un horaire décalé évite la congestion des runners.
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+    inputs:
+      n_studies:
+        description: "Number of studies in new batch"
+        default: "40"
+      families:
+        description: "Families, separated by spaces"
+        default: "esters silicones"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: retrain
+  cancel-in-progress: false
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RETRAIN_TOKEN || github.token }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+
+      - run: uv sync --locked
+
+      - name: Append a new data batch
+        env:
+          N_STUDIES: ${{ inputs.n_studies || '40' }}
+          FAMILIES: ${{ inputs.families || 'esters silicones' }}
+        run: |
+          uv run python scripts/append_batch.py \
+            --n-studies "$N_STUDIES" --families $FAMILIES
+
+      - name: Reproduce the pipeline
+        id: repro
+        continue-on-error: true
+        run: uv run dvc repro
+
+      - name: Build report
+        if: always()
+        run: uv run python scripts/report.py --base origin/main
+
+      - name: Open a pull request
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.RETRAIN_TOKEN || github.token }}
+        run: |
+          BRANCH="retrain/$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add params.yaml dvc.lock metrics/
+          git commit -m "chore(retrain): new data batch"
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "Automatic retraining — $(date -u +%F)" \
+            --body-file report.md

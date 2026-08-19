@@ -16,6 +16,7 @@ dependencies = [
     "pandera>=0.32.1",
     "pyarrow>=17,<25",
     "pyyaml>=6.0.3",
+    "ruamel-yaml>=0.19.1",
     "torch>=2.13.0",
     "uvicorn[standard]>=0.52.3",
 ]
