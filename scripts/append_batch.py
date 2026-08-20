@@ -16,6 +16,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--n-studies", type=int, default=40)
     parser.add_argument("--families", nargs="+", default=["esters", "silicones"])
+    parser.add_argument("--protocol", default="v1")
     parser.add_argument("--seed", type=int, default=None)
     args = parser.parse_args()
 
@@ -24,7 +25,7 @@ def main():
     document = yaml.load(PARAMS_PATH)
 
     batches = document["data"]["batches"]
-    entry = next_batch_entry(batches, args.n_studies, args.families, args.seed)
+    entry = next_batch_entry(batches, args.n_studies, args.families, args.seed, args.protocol)
     batches.append(entry)
     yaml.dump(document, PARAMS_PATH)
 

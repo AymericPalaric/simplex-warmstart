@@ -5,7 +5,7 @@ import pandas as pd
 import pandera.pandas as pa
 from pandera.typing import Series
 
-from .chemistry import N_COMPONENTS
+from .chemistry import N_COMPONENTS, PROTOCOLS
 from .simulate import FAMILIES
 
 COMPOSITION_COLS = [f"x{i + 1}" for i in range(N_COMPONENTS)]
@@ -18,6 +18,7 @@ class ExperimentSchema(pa.DataFrameModel):
     study_id: Series[str] = pa.Field(nullable=False)
     batch_id: Series[int] = pa.Field(ge=0)
     family: Series[str] = pa.Field(isin=list(FAMILIES))
+    protocol: Series[str] = pa.Field(isin=list(PROTOCOLS))
 
     # Compositions
     x1: Series[float] = pa.Field(ge=0.0, le=1.0)

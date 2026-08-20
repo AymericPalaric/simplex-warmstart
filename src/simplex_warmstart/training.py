@@ -10,6 +10,7 @@ import pandas as pd
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
+from tqdm import trange
 
 from .features import (
     FEATURE_COLS,
@@ -73,7 +74,7 @@ def train_model(
     best_val, best_epoch = float("inf"), -1
     best_state = {}
 
-    for epoch in range(cfg_train["epochs"]):
+    for epoch in trange(cfg_train["epochs"], desc=f"Training on {cfg_train['epochs']} epochs"):
         model.train()
         for xb, yb in loader:
             optimiser.zero_grad()

@@ -1,4 +1,4 @@
-"""E5 : vérif qualité du modèle"""
+"""E6 : vérif qualité du modèle"""
 
 from __future__ import annotations
 
