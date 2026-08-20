@@ -1,0 +1,54 @@
+{
+  "n_reference": 2800,
+  "n_current": 560,
+  "psi_threshold": 0.2,
+  "share_threshold": 0.4,
+  "drift_share": 1.0,
+  "dataset_drift": true,
+  "new_categories": {
+    "family": [
+      "alcanes"
+    ]
+  },
+  "columns": [
+    {
+      "column": "c1_d1",
+      "psi": 6.305070196256162,
+      "ks": 0.43999999999999995,
+      "drifted": true
+    },
+    {
+      "column": "c1_d2",
+      "psi": 12.433855885838662,
+      "ks": 0.975,
+      "drifted": true
+    },
+    {
+      "column": "c2_d1",
+      "psi": 5.322937332703575,
+      "ks": 0.43499999999999994,
+      "drifted": true
+    },
+    {
+      "column": "c2_d2",
+      "psi": 12.433855885838662,
+      "ks": 0.96,
+      "drifted": true
+    },
+    {
+      "column": "c3_d1",
+      "psi": 5.247451053485473,
+      "ks": 0.44499999999999995,
+      "drifted": true
+    },
+    {
+      "column": "c3_d2",
+      "psi": 12.433855885838662,
+      "ks": 0.945,
+      "drifted": true
+    }
+  ],
+  "status": "ok",
+  "latest_batch": 2,
+  "html_report": false
+}
