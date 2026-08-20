@@ -43,7 +43,7 @@ def main():
             }
         )
 
-        def log_epoch(epoch: int, metrics: dict[str, float]) -> None:
+        def log_epoch(epoch: int, metrics: dict[str, float]):
             mlflow.log_metrics(metrics, step=epoch)
 
         result = train_model(train_df, val_df, cfg_model, cfg_train, on_epoch_callback=log_epoch)

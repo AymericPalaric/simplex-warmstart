@@ -26,6 +26,7 @@ def main():
                 n_studies=b["n_studies"],
                 families=tuple(b["families"]),
                 seed=b["seed"],
+                protocol=b.get("protocol", "v1"),
             )
             for b in batches
         ],

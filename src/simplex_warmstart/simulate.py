@@ -56,6 +56,7 @@ def generate_study(
     degree: int = 3,
     n_random: int = 4,
     noise_std: float = 0.15,
+    protocol: str = "v1",
 ) -> pd.DataFrame:
     """Une étude = composants d'une famille + plan + mesures"""
     descriptors = rng.normal(family.center, family.radius, size=(N_COMPONENTS, N_DESCRIPTORS))
@@ -63,7 +64,7 @@ def generate_study(
         [simplex_lattice(degree), rng.dirichlet(np.ones(N_COMPONENTS), size=n_random)]
     )
 
-    y_true = response(compositions, descriptors)
+    y_true = response(compositions, descriptors, protocol=protocol)
     y = y_true + rng.normal(0, noise_std, size=len(compositions))
 
     df = pd.DataFrame(compositions, columns=[f"x{i + 1}" for i in range(N_COMPONENTS)])
@@ -77,6 +78,7 @@ def generate_study(
     df.insert(0, "study_id", study_id)
     df.insert(0, "family", family.name)
     df.insert(0, "batch_id", batch_id)
+    df.insert(0, "protocol", protocol)
     return df
 
 
@@ -85,6 +87,7 @@ def generate_batch(
     n_studies: int = 40,
     families: tuple[str, ...] = BASELINE_FAMILIES,
     seed: int = 0,
+    protocol: str = "v1",
 ) -> pd.DataFrame:
     """Un batch = les études arrivées sur une période de temps"""
     rng = np.random.default_rng(seed)
@@ -94,6 +97,7 @@ def generate_batch(
             family=FAMILIES[families[k % len(families)]],
             study_id=f"batch_{batch_id:02d}-study_{k:03d}",
             batch_id=batch_id,
+            protocol=protocol,
         )
         for k in range(n_studies)
     ]

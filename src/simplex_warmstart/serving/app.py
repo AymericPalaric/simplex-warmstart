@@ -21,7 +21,7 @@ MAX_SAMPLES = 50_000
 state: dict[str, LoadedModel] = {}
 
 
-def check_descriptors(rows: list[list[float]]) -> None:
+def check_descriptors(rows: list[list[float]]):
     if any(len(row) != N_DESCRIPTORS for row in rows):
         raise ValueError(f"Each component has exactly {N_DESCRIPTORS} descriptors")
 

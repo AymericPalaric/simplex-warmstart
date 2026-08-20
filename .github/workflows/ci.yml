@@ -44,7 +44,7 @@ jobs:
         with:
           enable-cache: true
 
-      - run: uv sync --locked
+      - run: uv sync --locked --extra monitoring
 
       - name: Reproduce the pipeline
         run: uv run dvc repro --force
@@ -61,8 +61,10 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: metrics
-          path: metrics/
+          name: metrics-and-reports
+          path: |
+            metrics/
+            reports/
 
       - name: Build report
         if: always() && github.event_name == 'pull_request'

@@ -50,6 +50,22 @@ stages:
       - metrics/eval.json:
           cache: false
 
+  drift:
+    cmd: python -m simplex_warmstart.stages.drift
+    deps:
+      - data/processed/experiments.parquet
+      - src/simplex_warmstart/drift.py
+      - src/simplex_warmstart/stages/drift.py
+    params:
+      - drift
+    metrics:
+      - metrics/drift.json:
+          cache: false
+    outs:
+      - reports/drift.html:
+          cache: false
+          persist: false
+
   gate:
     cmd: python -m simplex_warmstart.stages.gate
     deps:

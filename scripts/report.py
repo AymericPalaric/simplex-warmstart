@@ -11,6 +11,7 @@ from simplex_warmstart.params import load_params
 from simplex_warmstart.reporting import build_report
 
 GATE_PATH = Path("metrics/gate.json")
+DRIFT_PATH = Path("metrics/drift.json")
 EVAL_PATH = Path("metrics/eval.json")
 OUTPUT_PATH = Path("report.md")
 
@@ -45,6 +46,7 @@ def main():
     )
     report = build_report(
         gate=gate,
+        drift=load_or_default(DRIFT_PATH, {"status": "not_applicable"}),
         eval_results=load_or_default(EVAL_PATH, []),
         batches=load_params()["data"]["batches"],
         metrics_diff=metrics_diff(args.base),
