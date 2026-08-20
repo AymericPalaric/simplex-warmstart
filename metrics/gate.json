@@ -1,23 +1,23 @@
 {
-  "passed": false,
+  "passed": true,
   "checks": [
     {
       "name": "test_rmse",
-      "value": 0.7195671200752258,
+      "value": 0.1596296727657318,
       "threshold": 0.19,
-      "passed": false
+      "passed": true
     },
     {
       "name": "test_r2",
-      "value": 0.5400516553269673,
+      "value": 0.9598692329240907,
       "threshold": 0.9,
-      "passed": false
+      "passed": true
     },
     {
       "name": "family_gap (esters)",
-      "value": 0.11883991956710815,
+      "value": 0.0029219090938568115,
       "threshold": 0.1,
-      "passed": false
+      "passed": true
     }
   ]
 }

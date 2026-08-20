@@ -1,0 +1,50 @@
+{
+  "n_reference": 1680,
+  "n_current": 1120,
+  "psi_threshold": 0.2,
+  "share_threshold": 0.4,
+  "drift_share": 0.3333333333333333,
+  "dataset_drift": false,
+  "new_categories": {},
+  "columns": [
+    {
+      "column": "c1_d1",
+      "psi": 0.07316042033367327,
+      "ks": 0.07083333333333341,
+      "drifted": false
+    },
+    {
+      "column": "c1_d2",
+      "psi": 0.13729053550328113,
+      "ks": 0.125,
+      "drifted": false
+    },
+    {
+      "column": "c2_d1",
+      "psi": 0.14388967414914278,
+      "ks": 0.06666666666666665,
+      "drifted": false
+    },
+    {
+      "column": "c2_d2",
+      "psi": 0.22158926899159387,
+      "ks": 0.16666666666666663,
+      "drifted": true
+    },
+    {
+      "column": "c3_d1",
+      "psi": 0.2427108288733415,
+      "ks": 0.11250000000000004,
+      "drifted": true
+    },
+    {
+      "column": "c3_d2",
+      "psi": 0.12420154416342986,
+      "ks": 0.125,
+      "drifted": false
+    }
+  ],
+  "status": "ok",
+  "latest_batch": 1,
+  "html_report": true
+}
