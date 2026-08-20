@@ -1,7 +1,7 @@
 {
   "model_dir": "models",
-  "batch": 3,
-  "rmse_reference": 0.42440581696117524,
-  "rmse_current": 0.9635194999912735,
-  "degradation_ratio": 2.2702787320170414
+  "batch": 2,
+  "rmse_reference": 0.5286895773634962,
+  "rmse_current": 1.0471814285392147,
+  "degradation_ratio": 1.9807113160077179
 }

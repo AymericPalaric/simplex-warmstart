@@ -5,19 +5,16 @@ stages:
     deps:
     - path: src/simplex_warmstart/chemistry.py
       hash: md5
-      md5: 2ee71d4052ccff5fb2fb1abd5a6c2a22
-      size: 2116
-      isexec: true
+      md5: dcf1a21a2b5ab7edb4edebca700c8eac
+      size: 2115
     - path: src/simplex_warmstart/simulate.py
       hash: md5
       md5: 924551de2d07fa0d0ebd7204195b40d5
       size: 4255
-      isexec: true
     - path: src/simplex_warmstart/stages/generate.py
       hash: md5
       md5: 799d76a0dfbbb693a9e409cd24f3253e
       size: 1191
-      isexec: true
     params:
       params.yaml:
         data:
@@ -35,41 +32,30 @@ stages:
             families:
             - esters
             - silicones
-          - id: 2
-            n_studies: 120
-            seed: 2001
-            families:
-            - alcanes
-            protocol: v1
     outs:
     - path: data/raw/experiments.parquet
       hash: md5
-      md5: 5794e73c158346b827d3f87f69606413
-      size: 158471
-      isexec: true
+      md5: 8471e63e23ade79539eafba012f61786
+      size: 100188
   validate:
     cmd: python -m simplex_warmstart.stages.validate
     deps:
     - path: data/raw/experiments.parquet
       hash: md5
-      md5: 5794e73c158346b827d3f87f69606413
-      size: 158471
-      isexec: true
+      md5: 8471e63e23ade79539eafba012f61786
+      size: 100188
     - path: src/simplex_warmstart/schemas.py
       hash: md5
       md5: 5a3d60d52e4caaf43e72c761bc6f8d1b
       size: 1618
-      isexec: true
     - path: src/simplex_warmstart/splits.py
       hash: md5
       md5: caa7335fc43f34064ebdef85fa563395
       size: 1098
-      isexec: true
     - path: src/simplex_warmstart/stages/validate.py
       hash: md5
       md5: 69799a945ab3a2049e8cea6f1da47bdf
       size: 1051
-      isexec: true
     params:
       params.yaml:
         split:
@@ -79,32 +65,27 @@ stages:
     outs:
     - path: data/processed/experiments.parquet
       hash: md5
-      md5: 5ea0428b8e8451ba4aa1c698dd14a454
-      size: 159183
-      isexec: true
+      md5: 7b9a68a30ec1fc7a0344434f5d79f064
+      size: 100844
   train:
     cmd: python -m simplex_warmstart.stages.train
     deps:
     - path: data/processed/experiments.parquet
       hash: md5
-      md5: 5ea0428b8e8451ba4aa1c698dd14a454
-      size: 159183
-      isexec: true
+      md5: 7b9a68a30ec1fc7a0344434f5d79f064
+      size: 100844
     - path: src/simplex_warmstart/features.py
       hash: md5
       md5: 9246cf20d157ba2a5a8ce59822ad0138
       size: 2980
-      isexec: true
     - path: src/simplex_warmstart/model.py
       hash: md5
       md5: d70f6bce28fc0f1bdda2fddfa2b493ad
       size: 752
-      isexec: true
     - path: src/simplex_warmstart/stages/train.py
       hash: md5
       md5: 81cea08dc0a6636a05421f532c84c7e4
       size: 2687
-      isexec: true
     params:
       params.yaml:
         model:
@@ -122,61 +103,51 @@ stages:
     outs:
     - path: metrics/train.json
       hash: md5
-      md5: d8748a12f1a80c8456b64f25cdb58941
-      size: 41
-      isexec: true
+      md5: 3f7b19526b9fd6e6e5cb6ca888042bb6
+      size: 44
     - path: models/metadata.json
       hash: md5
-      md5: 418b63df0bd61524482a8ed18fbfe8ce
-      size: 890
-      isexec: true
+      md5: a1763a9b98596256fd9765cc7646fd8b
+      size: 937
     - path: models/model.pt
       hash: md5
-      md5: 00c581d4933042db63f210e0b6874925
+      md5: 0e7f2bbaadf5ff2b8dbd7e904b125f06
       size: 22205
-      isexec: true
   evaluate:
     cmd: python -m simplex_warmstart.stages.evaluate
     deps:
     - path: data/processed/experiments.parquet
       hash: md5
-      md5: 5ea0428b8e8451ba4aa1c698dd14a454
-      size: 159183
-      isexec: true
+      md5: 7b9a68a30ec1fc7a0344434f5d79f064
+      size: 100844
     - path: models/metadata.json
       hash: md5
-      md5: 418b63df0bd61524482a8ed18fbfe8ce
-      size: 890
-      isexec: true
+      md5: a1763a9b98596256fd9765cc7646fd8b
+      size: 937
     - path: models/model.pt
       hash: md5
-      md5: 00c581d4933042db63f210e0b6874925
+      md5: 0e7f2bbaadf5ff2b8dbd7e904b125f06
       size: 22205
-      isexec: true
     - path: src/simplex_warmstart/stages/evaluate.py
       hash: md5
       md5: efddb38827ca340395035b625a503f47
       size: 1804
-      isexec: true
     outs:
     - path: metrics/eval.json
       hash: md5
-      md5: 6cc7c29facc1f08cdd77262765b1db3a
-      size: 471
-      isexec: true
+      md5: ef214f0ea9ca79ec0c9828c1438bb39e
+      size: 365
   gate:
     cmd: python -m simplex_warmstart.stages.gate
     deps:
     - path: metrics/eval.json
       hash: md5
-      md5: 6cc7c29facc1f08cdd77262765b1db3a
-      size: 471
-      isexec: true
+      md5: ef214f0ea9ca79ec0c9828c1438bb39e
+      size: 365
     - path: src/simplex_warmstart/stages/gate.py
       hash: md5
       md5: 3a7b6c468d5444a66f8c2b4ea73acb04
       size: 1787
-      isexec: true
     params:
       params.yaml:
         gates:
@@ -186,27 +157,23 @@ stages:
     outs:
     - path: metrics/gate.json
       hash: md5
-      md5: eca02a6df94a9b5f689c65bb33074ab5
-      size: 413
-      isexec: true
+      md5: 526f751fc2be50f8deada6380877cb23
+      size: 432
   drift:
     cmd: python -m simplex_warmstart.stages.drift
     deps:
     - path: data/processed/experiments.parquet
       hash: md5
-      md5: 9df8963dc4ee33a32f81b5484e122506
-      size: 215245
-      isexec: true
+      md5: 7b9a68a30ec1fc7a0344434f5d79f064
+      size: 100844
     - path: src/simplex_warmstart/drift.py
       hash: md5
-      md5: 15ecd85e7d0701af35809ad322e41db2
-      size: 2641
-      isexec: true
+      md5: d680d8e223f586832a65b9f87a53e820
+      size: 2639
     - path: src/simplex_warmstart/stages/drift.py
       hash: md5
-      md5: 0f07f98dff2bec27406843e5810b62ea
-      size: 2561
-      isexec: true
+      md5: 28392fa160fcee23521c5e4a98f9d227
+      size: 2557
     params:
       params.yaml:
         drift:
@@ -215,11 +182,9 @@ stages:
     outs:
     - path: metrics/drift.json
       hash: md5
-      md5: 0b972b0771ab46e85fe60a393d434520
-      size: 1029
-      isexec: true
+      md5: 3c7f7bcb295fda93696f56883551f2d0
+      size: 1050
     - path: reports/drift.html
       hash: md5
-      md5: 3e3d2c7d880f914299dec10e6d5c7d93
-      size: 4084963
-      isexec: true
+      md5: 835f09f4f96d14c80b690f15247a8456
+      size: 4081960
