@@ -12,12 +12,6 @@ data:
     - esters
     - silicones
 
-  - id: 2
-    n_studies: 120
-    seed: 2001
-    families:
-    - alcanes
-    protocol: v1
 split:
   val_fraction: 0.15
   test_fraction: 0.15
